@@ -10,7 +10,7 @@
 
 @class MPFeatureDetector;
 
-@interface MPHomography : NSObject
+@interface MPImageMatcher : NSObject
 
 @property (readonly) NSUInteger maxFeatureCount;
 
@@ -19,11 +19,11 @@
 - (nonnull instancetype)initWithSURFDetectorHessian:(double)hessian
                                 matchIterationCount:(int)iterationCount;
 
-- (int)homographyScoreBetween:(nonnull NSImage *)image
-                     andImage:(nonnull NSImage *)otherImage;
+- (double)medianMatchDistanceBetween:(nonnull NSImage *)image
+                            andImage:(nonnull NSImage *)otherImage;
 
-- (int)homographyScoreBetween:(nonnull NSImage *)image
-                     andImage:(nonnull NSImage *)otherImage
-           matchVisualization:(NSImage *_Nullable *_Nullable)matchVisualization;
+- (double)medianMatchDistanceBetween:(nonnull NSImage *)image
+                            andImage:(nonnull NSImage *)otherImage
+                  matchVisualization:(NSImage *_Nullable *_Nullable)matchVisualization;
 
 @end

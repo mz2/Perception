@@ -22,7 +22,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "MPHomography.h"
+#import "MPMatchDistance.h"
 #import "NSImage+OpenCV.h"
 #import "MPMatchVisualizer.h"
 
@@ -31,16 +31,16 @@ using namespace cv::xfeatures2d;
 
 // derived from the OpenCV3 SURF detector & extractor homography example.
 
-@interface MPHomography ()
+@interface MPImageMatcher ()
 @property (readonly) MPMatchVisualizer *matchVisualizer;
 @property (readonly) double SURFDetectorHessian;
 @property (readonly) int iterationCount;
 @end
 
-@implementation MPHomography
+@implementation MPImageMatcher
 
 + (void)initialize {
-    if (self == [MPHomography class]) {
+    if (self == [MPImageMatcher class]) {
         //cv::initModule_nonfree();
     }
 }
@@ -58,9 +58,8 @@ using namespace cv::xfeatures2d;
     return self;
 }
 
-- (int)homographyScoreBetween:(NSImage *)image
-                     andImage:(NSImage *)otherImage {
-    return [self homographyScoreBetween:image andImage:otherImage matchVisualization:nil];
+- (double)medianMatchDistanceBetween:(NSImage *)image andImage:(NSImage *)otherImage {
+    return [self medianMatchDistanceBetween:image andImage:otherImage matchVisualization:nil];
 }
 
 - (int)homographyScoreBetween:(const Mat &)img1
@@ -96,10 +95,11 @@ using namespace cv::xfeatures2d;
     Mat output;
     findHomography(obj, scene, output);
     
+    // TODO: Whilst this appears to be useless at deciding.
     int score = 0;
     for (int i = 0; i < output.rows; i++) {
         for (int j = 0; j < output.cols; j++) {
-            if (output.at<int>(j,i) > 0) {
+            if (output.at<double>(j,i) > 0) {
                 score++;
             }
         }
@@ -110,20 +110,14 @@ using namespace cv::xfeatures2d;
 
 // adapted from http://docs.opencv.org/2.4/doc/tutorials/features2d/feature_homography/feature_homography.html
 
-- (int)homographyScoreBetween:(NSImage *)image
-                     andImage:(NSImage *)otherImage
-           matchVisualization:(NSImage **)matchVisualization
-
-{
+- (double)medianMatchDistanceBetween:(NSImage *)image andImage:(NSImage *)otherImage matchVisualization:(NSImage *__autoreleasing  _Nullable *)matchVisualization {
     NSParameterAssert(image);
     NSParameterAssert(otherImage);
     
-    cv::Mat *img1Mat = [image MatRepresentationGray];
-    cv::Mat *img2Mat = [otherImage MatRepresentationGray];
-    cv::UMat img1 = img1Mat->getUMat(ACCESS_READ);
-    cv::UMat img2 = img2Mat->getUMat(ACCESS_READ);
-    
-    std::vector<cv::KeyPoint> keypoints_object, keypoints_scene;
+    cv::Mat img1Mat = [image MatRepresentationGray];
+    cv::Mat img2Mat = [otherImage MatRepresentationGray];
+    cv::UMat img1 = img1Mat.getUMat(ACCESS_READ);
+    cv::UMat img2 = img2Mat.getUMat(ACCESS_READ);
     
     //declare input/output
     std::vector<KeyPoint> keypoints1, keypoints2;
@@ -139,6 +133,9 @@ using namespace cv::xfeatures2d;
     SURFMatcher<BFMatcher> matcher;
     
     //-- start of timing section
+    
+    NSParameterAssert(!img1Mat.empty());
+    NSParameterAssert(!img2Mat.empty());
     
     NSParameterAssert(!img1.empty());
     NSParameterAssert(!img2.empty());
@@ -169,16 +166,33 @@ using namespace cv::xfeatures2d;
         *matchVisualization = img;
     }
     
-    int score = [self homographyScoreBetween:img1.getMat(ACCESS_READ)
-                                    andImage:img2.getMat(ACCESS_READ)
-                          comparingKeyPoints:keypoints1
-                                 toKeyPoints:keypoints2
-                                     matches:matches sceneCorners:corner];
+    //-- Sort matches and preserve top 10% matches
+    std::sort(matches.begin(), matches.end());
+    std::vector< DMatch > goodMatches;
     
-    delete img1Mat;
-    delete img2Mat;
+    const int ptsPairs = std::min(self.matchVisualizer.maxGoodMatchCount, (int)(matches.size() * self.matchVisualizer.goodMatchPortion));
+    for (int i = 0; i < ptsPairs; i++) {
+        goodMatches.push_back( matches[i] );
+    }
     
-    return score;
+    std::vector<double> goodMatchValues;
+    
+    for (int i = 0; i < goodMatches.size(); i++) {
+        goodMatchValues.push_back((double)matches.at(i).distance);
+    }
+    
+    return vecMed(goodMatchValues);
+}
+
+double vecMed(std::vector<double> vec) {
+    if(vec.empty()) return 0;
+    else {
+        std::sort(vec.begin(), vec.end());
+        if(vec.size() % 2 == 0)
+            return (vec[vec.size()/2 - 1] + vec[vec.size()/2]) / 2;
+        else
+            return vec[vec.size()/2];
+    }
 }
 
 @end

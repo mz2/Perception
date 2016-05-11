@@ -25,19 +25,19 @@
     [super tearDown];
 }
 
-- (void)testHomography {
-    MPHomography *homography = [[MPHomography alloc] initWithSURFDetectorHessian:400 matchIterationCount:10];
+- (void)testDistanceMeasure {
+    MPHomography *homography = [[MPHomography alloc] initWithSURFDetectorHessian:800 matchIterationCount:20];
     
     NSImage *imgA = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-A.png"];
     NSImage *imgB = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-B.png"];
     NSImage *imgC = [[NSBundle bundleForClass:self.class] imageForResource:@"treebark.png"];
     
-    int scoreAB = [homography homographyScoreBetween:imgA andImage:imgB];
-    int scoreAC = [homography homographyScoreBetween:imgA andImage:imgC];
-    int scoreBC = [homography homographyScoreBetween:imgB andImage:imgC];
+    double scoreAB = [homography homographyScoreBetween:imgA andImage:imgB];
+    double scoreAC = [homography homographyScoreBetween:imgA andImage:imgC];
+    double scoreBC = [homography homographyScoreBetween:imgB andImage:imgC];
     
-    XCTAssert(scoreAB > scoreAC);
-    XCTAssert(scoreAB > scoreBC);
+    XCTAssert(scoreAB < scoreAC);
+    XCTAssert(scoreAB < scoreBC);
     
 }
 
