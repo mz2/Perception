@@ -10,7 +10,6 @@
 
 @implementation NSImage (OpenCV)
 
-
 + (NSImage *)imageFromCVMat:(cv::Mat)cvMat {
     NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.elemSize()*cvMat.total()];
     CGColorSpaceRef colorSpace;
@@ -54,8 +53,7 @@
     return cgImage;
 }
 
-- (cv::Mat)cvMatRepresentationColor
-{
+- (cv::Mat)cvMatRepresentationColor {
     CGImageRef cgImage = self.CGImage;
     
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(cgImage);
@@ -80,8 +78,7 @@
     return color;
 }
 
-- (cv::Mat)cvMatRepresentationGray
-{
+- (cv::Mat)cvMatRepresentationGray {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.CGImage);
     int cols = self.size.width;
     int rows = self.size.height;
