@@ -26,8 +26,6 @@ using namespace cv;
 using namespace cv::xfeatures2d;
 
 @interface MPMatchVisualizer ()
-@property (readonly) int maxGoodMatchCount;
-@property (readonly) double goodMatchPortion;
 @end
 
 @implementation MPMatchVisualizer
@@ -91,8 +89,8 @@ using namespace cv::xfeatures2d;
     obj_corners[3] = cv::Point( 0, img1.rows );
     std::vector<Point2f> scene_corners(4);
     
-    Mat H = findHomography( obj, scene, RANSAC );
-    perspectiveTransform( obj_corners, scene_corners, H);
+    Mat H = findHomography(obj, scene, RANSAC);
+    perspectiveTransform(obj_corners, scene_corners, H);
     
     scene_corners_ = scene_corners;
     

@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "MPHomography.h"
 
 @interface PerceptionTests : XCTestCase
 
@@ -24,10 +25,20 @@
     [super tearDown];
 }
 
-- (void)testExample {
+- (void)testHomography {
+    MPHomography *homography = [[MPHomography alloc] initWithSURFDetectorHessian:400 matchIterationCount:10];
     
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+    NSImage *imgA = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-A.png"];
+    NSImage *imgB = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-B.png"];
+    NSImage *imgC = [[NSBundle bundleForClass:self.class] imageForResource:@"treebark.png"];
+    
+    int scoreAB = [homography homographyScoreBetween:imgA andImage:imgB];
+    int scoreAC = [homography homographyScoreBetween:imgA andImage:imgC];
+    int scoreBC = [homography homographyScoreBetween:imgB andImage:imgC];
+    
+    XCTAssert(scoreAB > scoreAC);
+    XCTAssert(scoreAB > scoreBC);
+    
 }
 
 @end

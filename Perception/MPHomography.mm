@@ -58,21 +58,70 @@ using namespace cv::xfeatures2d;
     return self;
 }
 
-- (void)homographyBetween:(NSImage *)image
-                 andImage:(NSImage *)otherImage {
-    [self homographyBetween:image andImage:otherImage matchVisualization:nil];
+- (int)homographyScoreBetween:(NSImage *)image
+                     andImage:(NSImage *)otherImage {
+    return [self homographyScoreBetween:image andImage:otherImage matchVisualization:nil];
+}
+
+- (int)homographyScoreBetween:(const Mat &)img1
+                     andImage:(const Mat&)img2
+           comparingKeyPoints:(const std::vector<KeyPoint>&)keypoints1
+                  toKeyPoints:(const std::vector<KeyPoint>&)keypoints2
+                      matches:(std::vector<DMatch>&)matches
+                 sceneCorners:(std::vector<Point2f>&)scene_corners_ {
+    //-- Sort matches and preserve top 10% matches
+    std::sort(matches.begin(), matches.end());
+    std::vector< DMatch > good_matches;
+    double minDist = matches.front().distance;
+    double maxDist = matches.back().distance;
+    
+    const int ptsPairs = std::min(self.matchVisualizer.maxGoodMatchCount, (int)(matches.size() * self.matchVisualizer.goodMatchPortion));
+    for( int i = 0; i < ptsPairs; i++ ) {
+        good_matches.push_back( matches[i] );
+    }
+    std::cout << "\nMax distance: " << maxDist << std::endl;
+    std::cout << "Min distance: " << minDist << std::endl;
+    std::cout << "Calculating homography using " << ptsPairs << " point pairs." << std::endl;
+    
+    //-- Localize the object
+    std::vector<Point2f> obj;
+    std::vector<Point2f> scene;
+    
+    //-- Get the keypoints from the good matches
+    for(size_t i = 0; i < good_matches.size(); i++) {
+        obj.push_back( keypoints1[ good_matches[i].queryIdx ].pt );
+        scene.push_back( keypoints2[ good_matches[i].trainIdx ].pt );
+    }
+    
+    Mat output;
+    findHomography(obj, scene, output);
+    
+    int score = 0;
+    for (int i = 0; i < output.rows; i++) {
+        for (int j = 0; j < output.cols; j++) {
+            if (output.at<int>(j,i) > 0) {
+                score++;
+            }
+        }
+    }
+    
+    return score;
 }
 
 // adapted from http://docs.opencv.org/2.4/doc/tutorials/features2d/feature_homography/feature_homography.html
 
-- (void)homographyBetween:(NSImage *)image
-                 andImage:(NSImage *)otherImage
-       matchVisualization:(NSImage **)matchVisualization
+- (int)homographyScoreBetween:(NSImage *)image
+                     andImage:(NSImage *)otherImage
+           matchVisualization:(NSImage **)matchVisualization
 
 {
+    NSParameterAssert(image);
+    NSParameterAssert(otherImage);
     
-    cv::UMat img1 = [image UMatRepresentationGray];
-    cv::UMat img2 = [otherImage UMatRepresentationGray];
+    cv::Mat *img1Mat = [image MatRepresentationGray];
+    cv::Mat *img2Mat = [otherImage MatRepresentationGray];
+    cv::UMat img1 = img1Mat->getUMat(ACCESS_READ);
+    cv::UMat img2 = img2Mat->getUMat(ACCESS_READ);
     
     std::vector<cv::KeyPoint> keypoints_object, keypoints_scene;
     
@@ -85,11 +134,14 @@ using namespace cv::xfeatures2d;
     descriptors2 = _descriptors2.getMat(ACCESS_RW);
     
     //instantiate detectors/matchers
-    SURFDetector surf;
+    SURFDetector surf(self.SURFDetectorHessian);
     
     SURFMatcher<BFMatcher> matcher;
     
     //-- start of timing section
+    
+    NSParameterAssert(!img1.empty());
+    NSParameterAssert(!img2.empty());
     
     for (int i = 0; i <= self.iterationCount; i++) {
         surf(img1.getMat(ACCESS_READ), Mat(), keypoints1, descriptors1);
@@ -99,6 +151,10 @@ using namespace cv::xfeatures2d;
 
     std::cout << "FOUND " << keypoints1.size() << " keypoints on first image" << std::endl;
     std::cout << "FOUND " << keypoints2.size() << " keypoints on second image" << std::endl;
+    
+    if (keypoints1.size() == 0 || keypoints2.size() == 0) {
+        return 0;
+    }
     
     std::vector<Point2f> corner;
     
@@ -112,6 +168,17 @@ using namespace cv::xfeatures2d;
         
         *matchVisualization = img;
     }
+    
+    int score = [self homographyScoreBetween:img1.getMat(ACCESS_READ)
+                                    andImage:img2.getMat(ACCESS_READ)
+                          comparingKeyPoints:keypoints1
+                                 toKeyPoints:keypoints2
+                                     matches:matches sceneCorners:corner];
+    
+    delete img1Mat;
+    delete img2Mat;
+    
+    return score;
 }
 
 @end

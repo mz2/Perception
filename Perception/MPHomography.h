@@ -14,16 +14,16 @@
 
 @property (readonly) NSUInteger maxFeatureCount;
 
-@property (readonly) MPFeatureDetector *featureDetector;
+@property (readonly, nonnull) MPFeatureDetector *featureDetector;
 
-- (instancetype)initWithSURFDetectorHessian:(double)hessian
-                        matchIterationCount:(int)iterationCount;
+- (nonnull instancetype)initWithSURFDetectorHessian:(double)hessian
+                                matchIterationCount:(int)iterationCount;
 
-- (void)homographyBetween:(NSImage *)image
-                 andImage:(NSImage *)otherImage;
+- (int)homographyScoreBetween:(nonnull NSImage *)image
+                     andImage:(nonnull NSImage *)otherImage;
 
-- (void)homographyBetween:(NSImage *)image
-                 andImage:(NSImage *)otherImage
-       matchVisualization:(NSImage **)matchVisualization;
+- (int)homographyScoreBetween:(nonnull NSImage *)image
+                     andImage:(nonnull NSImage *)otherImage
+           matchVisualization:(NSImage *_Nullable *_Nullable)matchVisualization;
 
 @end

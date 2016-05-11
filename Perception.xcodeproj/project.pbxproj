@@ -47,6 +47,11 @@
 		5F13FF0D1CE3E78E00F69E54 /* libopencv_ximgproc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7015AB1CE2AB7300173EB6 /* libopencv_ximgproc.a */; };
 		5F13FF0E1CE3E78E00F69E54 /* libopencv_xobjdetect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7015AC1CE2AB7300173EB6 /* libopencv_xobjdetect.a */; };
 		5F13FF0F1CE3E78E00F69E54 /* libopencv_xphoto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7015AD1CE2AB7300173EB6 /* libopencv_xphoto.a */; };
+		5F13FF131CE3EFB800F69E54 /* kool-thing-A.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F13FF101CE3EFB800F69E54 /* kool-thing-A.png */; };
+		5F13FF141CE3EFB800F69E54 /* kool-thing-B.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F13FF111CE3EFB800F69E54 /* kool-thing-B.png */; };
+		5F13FF151CE3EFB800F69E54 /* treebark.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F13FF121CE3EFB800F69E54 /* treebark.png */; };
+		5F13FF161CE3F0C300F69E54 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F639A881CE28B8300ADEA1B /* OpenCL.framework */; };
+		5F13FF171CE3F3A800F69E54 /* NSImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F639A7D1CE288DE00ADEA1B /* NSImage+OpenCV.mm */; };
 		5F639A431CE287F600ADEA1B /* Perception.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F639A421CE287F600ADEA1B /* Perception.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F639A4A1CE287F600ADEA1B /* Perception.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F639A3F1CE287F600ADEA1B /* Perception.framework */; };
 		5F639A871CE28B5F00ADEA1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F639A861CE28B5F00ADEA1B /* Cocoa.framework */; };
@@ -153,6 +158,9 @@
 		5F13FEE31CE3DF0600F69E54 /* MPMatchVisualizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMatchVisualizer.h; sourceTree = "<group>"; };
 		5F13FEE41CE3DF0600F69E54 /* MPMatchVisualizer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MPMatchVisualizer.mm; sourceTree = "<group>"; };
 		5F13FEE81CE3E25B00F69E54 /* SURFDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SURFDetector.hpp; sourceTree = "<group>"; };
+		5F13FF101CE3EFB800F69E54 /* kool-thing-A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kool-thing-A.png"; sourceTree = "<group>"; };
+		5F13FF111CE3EFB800F69E54 /* kool-thing-B.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kool-thing-B.png"; sourceTree = "<group>"; };
+		5F13FF121CE3EFB800F69E54 /* treebark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = treebark.png; sourceTree = "<group>"; };
 		5F639A3F1CE287F600ADEA1B /* Perception.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Perception.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F639A421CE287F600ADEA1B /* Perception.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Perception.h; sourceTree = "<group>"; };
 		5F639A441CE287F600ADEA1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -277,6 +285,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F13FF161CE3F0C300F69E54 /* OpenCL.framework in Frameworks */,
 				5F639AA21CE2991800ADEA1B /* libz.tbd in Frameworks */,
 				5F639AA11CE298EA00ADEA1B /* Cocoa.framework in Frameworks */,
 				5F639A4A1CE287F600ADEA1B /* Perception.framework in Frameworks */,
@@ -381,6 +390,9 @@
 		5F639A4D1CE287F600ADEA1B /* PerceptionTests */ = {
 			isa = PBXGroup;
 			children = (
+				5F13FF101CE3EFB800F69E54 /* kool-thing-A.png */,
+				5F13FF111CE3EFB800F69E54 /* kool-thing-B.png */,
+				5F13FF121CE3EFB800F69E54 /* treebark.png */,
 				5F639A501CE287F600ADEA1B /* Info.plist */,
 				5F639AA61CE2995300ADEA1B /* PerceptionTests.m */,
 				5F639AA51CE2995300ADEA1B /* PerceptionTests-Bridging-Header.h */,
@@ -584,6 +596,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F13FF151CE3EFB800F69E54 /* treebark.png in Resources */,
+				5F13FF141CE3EFB800F69E54 /* kool-thing-B.png in Resources */,
+				5F13FF131CE3EFB800F69E54 /* kool-thing-A.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -595,6 +610,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F13FEE61CE3DF0600F69E54 /* MPMatchVisualizer.mm in Sources */,
+				5F13FF171CE3F3A800F69E54 /* NSImage+OpenCV.mm in Sources */,
 				5F7015E11CE2BAA200173EB6 /* MPHomography.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -779,6 +795,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries",
 				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.piipari.PerceptionTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PerceptionTests/PerceptionTests-Bridging-Header.h";
@@ -796,6 +816,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.piipari.PerceptionTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -13,6 +13,9 @@
 
 @interface MPMatchVisualizer : NSObject
 
+@property (readonly) int maxGoodMatchCount;
+@property (readonly) double goodMatchPortion;
+
 - (instancetype)initWithMaxGoodMatchCount:(int)maxGoodPointCount
                          goodMatchPortion:(double)goodMatchPortion;
 
