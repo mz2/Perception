@@ -22,7 +22,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "MPMatchDistance.h"
+#import "MPImageMatcher.h"
 #import "NSImage+OpenCV.h"
 #import "MPMatchVisualizer.h"
 

@@ -7,7 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "MPHomography.h"
+
+#import <Perception/Perception.h>
 
 @interface PerceptionTests : XCTestCase
 
@@ -26,19 +27,18 @@
 }
 
 - (void)testDistanceMeasure {
-    MPHomography *homography = [[MPHomography alloc] initWithSURFDetectorHessian:800 matchIterationCount:20];
+    MPImageMatcher *imageMatcher = [[MPImageMatcher alloc] initWithSURFDetectorHessian:800 matchIterationCount:20];
     
     NSImage *imgA = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-A.png"];
     NSImage *imgB = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-B.png"];
     NSImage *imgC = [[NSBundle bundleForClass:self.class] imageForResource:@"treebark.png"];
     
-    double scoreAB = [homography homographyScoreBetween:imgA andImage:imgB];
-    double scoreAC = [homography homographyScoreBetween:imgA andImage:imgC];
-    double scoreBC = [homography homographyScoreBetween:imgB andImage:imgC];
+    double scoreAB = [imageMatcher medianMatchDistanceBetween:imgA andImage:imgB];
+    double scoreAC = [imageMatcher medianMatchDistanceBetween:imgA andImage:imgC];
+    double scoreBC = [imageMatcher medianMatchDistanceBetween:imgB andImage:imgC];
     
     XCTAssert(scoreAB < scoreAC);
     XCTAssert(scoreAB < scoreBC);
-    
 }
 
 @end

@@ -60,7 +60,7 @@
 		5F639AA21CE2991800ADEA1B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F639A8A1CE28B8D00ADEA1B /* libz.tbd */; };
 		5F639AA41CE2992B00ADEA1B /* Perception.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F639A3F1CE287F600ADEA1B /* Perception.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F639AA71CE2995300ADEA1B /* PerceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F639AA61CE2995300ADEA1B /* PerceptionTests.m */; };
-		5F639AAC1CE29A8700ADEA1B /* MPMatchDistance.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F639AAA1CE29A8700ADEA1B /* MPMatchDistance.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F639AAC1CE29A8700ADEA1B /* MPImageMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F639AAA1CE29A8700ADEA1B /* MPImageMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F7015D91CE2B15100173EB6 /* libippicv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7015D71CE2AB8600173EB6 /* libippicv.a */; };
 		5F7015DA1CE2B15900173EB6 /* libopencv_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F70158A1CE2AB7300173EB6 /* libopencv_core.a */; };
 		5F7015DC1CE2B17300173EB6 /* libopencv_features2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F70158F1CE2AB7300173EB6 /* libopencv_features2d.a */; };
@@ -68,7 +68,7 @@
 		5F7015DE1CE2B18900173EB6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F639A8A1CE28B8D00ADEA1B /* libz.tbd */; };
 		5F7015DF1CE2B1B900173EB6 /* libopencv_imgproc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7015941CE2AB7300173EB6 /* libopencv_imgproc.a */; };
 		5F7015E01CE2B8EB00173EB6 /* NSImage+OpenCV.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F639A7C1CE288DE00ADEA1B /* NSImage+OpenCV.h */; };
-		5F7015E11CE2BAA200173EB6 /* MPMatchDistance.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F639AAB1CE29A8700ADEA1B /* MPMatchDistance.mm */; };
+		5F7015E11CE2BAA200173EB6 /* MPImageMatcher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F639AAB1CE29A8700ADEA1B /* MPImageMatcher.mm */; };
 		5F7015E91CE2BEF500173EB6 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F7015E81CE2BEF500173EB6 /* main.mm */; };
 		5F7015ED1CE2BF0E00173EB6 /* libippicv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7015D71CE2AB8600173EB6 /* libippicv.a */; };
 		5F7015EE1CE2BF0E00173EB6 /* libopencv_aruco.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7015851CE2AB7300173EB6 /* libopencv_aruco.a */; };
@@ -176,8 +176,8 @@
 		5F639A8A1CE28B8D00ADEA1B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		5F639AA51CE2995300ADEA1B /* PerceptionTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PerceptionTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		5F639AA61CE2995300ADEA1B /* PerceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerceptionTests.m; sourceTree = "<group>"; };
-		5F639AAA1CE29A8700ADEA1B /* MPMatchDistance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMatchDistance.h; sourceTree = "<group>"; };
-		5F639AAB1CE29A8700ADEA1B /* MPMatchDistance.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MPMatchDistance.mm; sourceTree = "<group>"; };
+		5F639AAA1CE29A8700ADEA1B /* MPImageMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPImageMatcher.h; sourceTree = "<group>"; };
+		5F639AAB1CE29A8700ADEA1B /* MPImageMatcher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MPImageMatcher.mm; sourceTree = "<group>"; };
 		5F7015851CE2AB7300173EB6 /* libopencv_aruco.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_aruco.a; path = Libraries/libopencv_aruco.a; sourceTree = "<group>"; };
 		5F7015861CE2AB7300173EB6 /* libopencv_bgsegm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_bgsegm.a; path = Libraries/libopencv_bgsegm.a; sourceTree = "<group>"; };
 		5F7015871CE2AB7300173EB6 /* libopencv_bioinspired.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_bioinspired.a; path = Libraries/libopencv_bioinspired.a; sourceTree = "<group>"; };
@@ -384,8 +384,8 @@
 			isa = PBXGroup;
 			children = (
 				5F13FF181CE3FBC400F69E54 /* Supporting Files */,
-				5F639AAA1CE29A8700ADEA1B /* MPMatchDistance.h */,
-				5F639AAB1CE29A8700ADEA1B /* MPMatchDistance.mm */,
+				5F639AAA1CE29A8700ADEA1B /* MPImageMatcher.h */,
+				5F639AAB1CE29A8700ADEA1B /* MPImageMatcher.mm */,
 				5F13FEE31CE3DF0600F69E54 /* MPMatchVisualizer.h */,
 				5F13FEE41CE3DF0600F69E54 /* MPMatchVisualizer.mm */,
 				5F639A7C1CE288DE00ADEA1B /* NSImage+OpenCV.h */,
@@ -487,7 +487,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F639AAC1CE29A8700ADEA1B /* MPMatchDistance.h in Headers */,
+				5F639AAC1CE29A8700ADEA1B /* MPImageMatcher.h in Headers */,
 				5F13FEE51CE3DF0600F69E54 /* MPMatchVisualizer.h in Headers */,
 				5F7015E01CE2B8EB00173EB6 /* NSImage+OpenCV.h in Headers */,
 				5F639A431CE287F600ADEA1B /* Perception.h in Headers */,
@@ -619,7 +619,7 @@
 			files = (
 				5F13FEE61CE3DF0600F69E54 /* MPMatchVisualizer.mm in Sources */,
 				5F13FF171CE3F3A800F69E54 /* NSImage+OpenCV.mm in Sources */,
-				5F7015E11CE2BAA200173EB6 /* MPMatchDistance.mm in Sources */,
+				5F7015E11CE2BAA200173EB6 /* MPImageMatcher.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
