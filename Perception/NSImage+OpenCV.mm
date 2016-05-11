@@ -10,7 +10,7 @@
 
 @implementation NSImage (OpenCV)
 
-+ (NSImage *)imageFromCVMat:(cv::Mat)cvMat {
++ (NSImage *)imageFromMat:(cv::Mat)cvMat {
     NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.elemSize()*cvMat.total()];
     CGColorSpaceRef colorSpace;
     
@@ -27,7 +27,44 @@
                                         cvMat.rows,                                 //height
                                         8,                                          //bits per component
                                         8 * cvMat.elemSize(),                       //bits per pixel
-                                        cvMat.step[0],                            //bytesPerRow
+                                        cvMat.step[0],                              //bytesPerRow
+                                        colorSpace,                                 //colorspace
+                                        kCGImageAlphaNone|kCGBitmapByteOrderDefault,// bitmap info
+                                        provider,                                   //CGDataProviderRef
+                                        NULL,                                       //decode
+                                        false,                                      //should interpolate
+                                        kCGRenderingIntentDefault                   //intent
+                                        );
+    
+    
+    // Getting UIImage from CGImage
+    
+    NSImage *finalImage = [[NSImage alloc] initWithCGImage:imageRef size:NSMakeSize(cvMat.cols, cvMat.rows)];
+    CGImageRelease(imageRef);
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+    
+    return finalImage;
+}
+
++ (NSImage *)imageFromUMat:(cv::UMat)cvMat {
+    NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.elemSize()*cvMat.total()];
+    CGColorSpaceRef colorSpace;
+    
+    if (cvMat.elemSize() == 1) {
+        colorSpace = CGColorSpaceCreateDeviceGray();
+    } else {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    
+    // Creating CGImage from cv::Mat
+    CGImageRef imageRef = CGImageCreate(cvMat.cols,                                 //width
+                                        cvMat.rows,                                 //height
+                                        8,                                          //bits per component
+                                        8 * cvMat.elemSize(),                       //bits per pixel
+                                        cvMat.step[0],                              //bytesPerRow
                                         colorSpace,                                 //colorspace
                                         kCGImageAlphaNone|kCGBitmapByteOrderDefault,// bitmap info
                                         provider,                                   //CGDataProviderRef
@@ -53,14 +90,14 @@
     return cgImage;
 }
 
-- (cv::Mat)cvMatRepresentationColor {
+- (cv::UMat)UMatRepresentationColor {
     CGImageRef cgImage = self.CGImage;
     
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(cgImage);
     CGFloat cols = self.size.width;
     CGFloat rows = self.size.height;
     
-    cv::Mat color(rows, cols, CV_8UC4); // 8 bits per component, 4 channels (color channels + alpha)
+    cv::UMat color(rows, cols, CV_8UC4); // 8 bits per component, 4 channels (color channels + alpha)
     
     CGContextRef contextRef = CGBitmapContextCreate(color.data,                 // Pointer to  data
                                                     cols,                       // Width of bitmap
@@ -78,12 +115,12 @@
     return color;
 }
 
-- (cv::Mat)cvMatRepresentationGray {
+- (cv::UMat)UMatRepresentationGray {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.CGImage);
     int cols = self.size.width;
     int rows = self.size.height;
     
-    cv::Mat gray(rows, cols, CV_8UC1);
+    cv::UMat gray(rows, cols, CV_8UC1);
     
     NSLog(@"cols %d rows %d step %zu", cols, rows, gray.step[0]);
     CGContextRef contextRef = CGBitmapContextCreate(gray.data,                 // Pointer to data

@@ -16,8 +16,14 @@
 
 @property (readonly) MPFeatureDetector *featureDetector;
 
-- (instancetype)initWithFeatureDetector:(MPFeatureDetector *)featureDetector;
+- (instancetype)initWithSURFDetectorHessian:(double)hessian
+                        matchIterationCount:(int)iterationCount;
 
-- (void)homographyBetween:(NSImage *)image andImage:(NSImage *)otherImage;
+- (void)homographyBetween:(NSImage *)image
+                 andImage:(NSImage *)otherImage;
+
+- (void)homographyBetween:(NSImage *)image
+                 andImage:(NSImage *)otherImage
+       matchVisualization:(NSImage **)matchVisualization;
 
 @end

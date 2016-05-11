@@ -16,8 +16,10 @@
 
 @interface NSImage (OpenCV)
 
-+ (NSImage *)imageFromCVMat:(cv::Mat)cvMat;
-- (cv::Mat)cvMatRepresentationColor;
-- (cv::Mat)cvMatRepresentationGray;
++ (NSImage *)imageFromMat:(cv::Mat)cvMat;
++ (NSImage *)imageFromUMat:(cv::UMat)cvMat;
+
+- (cv::UMat)UMatRepresentationColor;
+- (cv::UMat)UMatRepresentationGray;
 
 @end
