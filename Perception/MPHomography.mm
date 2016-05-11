@@ -27,6 +27,8 @@
 using namespace cv;
 using namespace cv::xfeatures2d;
 
+// derived from the OpenCV3 SURF detector & extractor homography example.
+
 @implementation MPHomography
 
 + (void)initialize {
@@ -70,6 +72,8 @@ struct SURFMatcher
     }
 };
 
+const int GOOD_PTS_MAX = 50;
+const float GOOD_PORTION = 0.15f;
 
 static Mat drawGoodMatches(
                            const Mat& img1,
@@ -115,10 +119,10 @@ static Mat drawGoodMatches(
     }
     //-- Get the corners from the image_1 ( the object to be "detected" )
     std::vector<Point2f> obj_corners(4);
-    obj_corners[0] = Point(0,0);
-    obj_corners[1] = Point( img1.cols, 0 );
-    obj_corners[2] = Point( img1.cols, img1.rows );
-    obj_corners[3] = Point( 0, img1.rows );
+    obj_corners[0] = cv::Point(0,0);
+    obj_corners[1] = cv::Point( img1.cols, 0 );
+    obj_corners[2] = cv::Point( img1.cols, img1.rows );
+    obj_corners[3] = cv::Point( 0, img1.rows );
     std::vector<Point2f> scene_corners(4);
     
     Mat H = findHomography( obj, scene, RANSAC );
@@ -160,6 +164,7 @@ static Mat drawGoodMatches(
     
     std::vector<cv::KeyPoint> keypoints_object, keypoints_scene;
     
+    /*
     detector.detect(img_object, keypoints_object);
     detector.detect(img_scene, keypoints_scene);
     
