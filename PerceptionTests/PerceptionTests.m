@@ -26,8 +26,8 @@
     [super tearDown];
 }
 
-- (void)testDistanceMeasure {
-    MPImageMatcher *imageMatcher = [[MPImageMatcher alloc] initWithSURFDetectorHessian:800 matchIterationCount:20];
+- (void)testMedianMatchDistanceMeasure {
+    MPImageMatcher *imageMatcher = [[MPImageMatcher alloc] initWithSURFDetectorHessian:400 matchIterationCount:10];
     
     NSImage *imgA = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-A.png"];
     NSImage *imgB = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-B.png"];
@@ -36,6 +36,21 @@
     double scoreAB = [imageMatcher medianMatchDistanceBetween:imgA andImage:imgB];
     double scoreAC = [imageMatcher medianMatchDistanceBetween:imgA andImage:imgC];
     double scoreBC = [imageMatcher medianMatchDistanceBetween:imgB andImage:imgC];
+    
+    XCTAssert(scoreAB < scoreAC);
+    XCTAssert(scoreAB < scoreBC);
+}
+
+- (void)testEarthMoverDistanceMeasure {
+    MPHistogramComparison *comparison = [[MPHistogramComparison alloc] initWithHueBinCount:30 saturationBinCount:32];
+    
+    NSImage *imgA = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-A.png"];
+    NSImage *imgB = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-B.png"];
+    NSImage *imgC = [[NSBundle bundleForClass:self.class] imageForResource:@"treebark.png"];
+    
+    double scoreAB = [comparison earthMoverDistanceBetween:imgA andImage:imgB];
+    double scoreAC = [comparison earthMoverDistanceBetween:imgA andImage:imgC];
+    double scoreBC = [comparison earthMoverDistanceBetween:imgB andImage:imgC];
     
     XCTAssert(scoreAB < scoreAC);
     XCTAssert(scoreAB < scoreBC);
