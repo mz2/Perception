@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import <Perception/Perception.h>
+@import Perception;
 
 @interface PerceptionTests : XCTestCase
 

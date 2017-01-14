@@ -1,0 +1,19 @@
+stages:
+  - build_macos
+  - test_macos
+
+build_macos:
+  stage: build_macos
+  script:
+    - xcodebuild -project Perception.xcodeproj -scheme Perception clean build | xcpretty
+  tags:
+    - xcode-8.2
+    - macos
+
+test_macos:
+  stage: build_ios
+  script:
+   - xcodebuild -project Perception.xcodeproj -scheme Perception clean test | xcpretty
+  tags:
+    - xcode-8.2
+    - macos
