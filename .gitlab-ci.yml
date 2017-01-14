@@ -11,7 +11,7 @@ build_macos:
     - macos
 
 test_macos:
-  stage: build_ios
+  stage: test_macos
   script:
    - xcodebuild -project Perception.xcodeproj -scheme Perception clean test | xcpretty
   tags:
