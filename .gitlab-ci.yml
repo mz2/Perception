@@ -7,7 +7,7 @@ build_macos:
   script:
     - xcodebuild -project Perception.xcodeproj -scheme Perception clean build | xcpretty
   tags:
-    - xcode-8.2
+    - xcode
     - macos
 
 test_macos:
@@ -15,5 +15,5 @@ test_macos:
   script:
    - xcodebuild -project Perception.xcodeproj -scheme Perception clean test | xcpretty
   tags:
-    - xcode-8.2
+    - xcode
     - macos
