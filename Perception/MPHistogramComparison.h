@@ -13,8 +13,8 @@
 @property (readonly) int hueBinCount;
 @property (readonly) int saturationBinCount;
 
-- (instancetype)initWithHueBinCount:(int)hueBinCount saturationBinCount:(int)saturationBinCount;
+- (nonnull instancetype)initWithHueBinCount:(int)hueBinCount saturationBinCount:(int)saturationBinCount;
 
-- (double)earthMoverDistanceBetween:(NSImage *)image andImage:(NSImage *)otherImage;
+- (double)earthMoverDistanceBetween:(nonnull NSImage *)image andImage:(nonnull NSImage *)otherImage;
 
 @end
