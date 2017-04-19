@@ -15,6 +15,6 @@
 
 - (nonnull instancetype)initWithHueBinCount:(int)hueBinCount saturationBinCount:(int)saturationBinCount;
 
-- (double)earthMoverDistanceBetween:(nonnull NSImage *)image andImage:(nonnull NSImage *)otherImage;
+- (double)earthMoverDistanceBetween:(nonnull CGImageRef)image andImage:(nonnull CGImageRef)otherImage;
 
 @end

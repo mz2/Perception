@@ -18,7 +18,7 @@
 
 + (NSImage *)imageFromMat:(cv::Mat)cvMat;
 
-- (cv::Mat)MatRepresentationColor;
-- (cv::Mat)MatRepresentationGray;
-
 @end
+
+cv::Mat matRepresentationColorForCGImage(CGImageRef imageRef);
+cv::Mat matRepresentationGrayForCGImage(CGImageRef imageRef);

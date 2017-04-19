@@ -36,11 +36,11 @@ using namespace std;
     return self;
 }
 
-- (double)earthMoverDistanceBetween:(NSImage *)image andImage:(NSImage *)otherImage {
+- (double)earthMoverDistanceBetween:(CGImageRef)image andImage:(CGImageRef)otherImage {
     //read 2 images for histogram comparing
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    cv::Mat img1Mat = [image MatRepresentationColor];
-    cv::Mat img2Mat = [otherImage MatRepresentationColor];
+    cv::Mat img1Mat = matRepresentationColorForCGImage(image);
+    cv::Mat img2Mat = matRepresentationColorForCGImage(otherImage);
     cv::UMat imgA = img1Mat.getUMat(ACCESS_READ);
     cv::UMat imgB = img2Mat.getUMat(ACCESS_READ);
     

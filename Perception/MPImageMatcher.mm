@@ -58,7 +58,7 @@ using namespace cv::xfeatures2d;
     return self;
 }
 
-- (double)medianMatchDistanceBetween:(NSImage *)image andImage:(NSImage *)otherImage {
+- (double)medianMatchDistanceBetween:(CGImageRef)image andImage:(CGImageRef)otherImage {
     return [self medianMatchDistanceBetween:image andImage:otherImage matchVisualization:nil];
 }
 
@@ -110,12 +110,14 @@ using namespace cv::xfeatures2d;
 
 // adapted from http://docs.opencv.org/2.4/doc/tutorials/features2d/feature_homography/feature_homography.html
 
-- (double)medianMatchDistanceBetween:(NSImage *)image andImage:(NSImage *)otherImage matchVisualization:(NSImage *__autoreleasing  _Nullable *)matchVisualization {
+- (double)medianMatchDistanceBetween:(CGImageRef)image
+                            andImage:(CGImageRef)otherImage
+                  matchVisualization:(NSImage *__autoreleasing  _Nullable *)matchVisualization {
     NSParameterAssert(image);
     NSParameterAssert(otherImage);
     
-    cv::Mat img1Mat = [image MatRepresentationGray];
-    cv::Mat img2Mat = [otherImage MatRepresentationGray];
+    cv::Mat img1Mat = matRepresentationGrayForCGImage(image);
+    cv::Mat img2Mat = matRepresentationGrayForCGImage(otherImage);
     cv::UMat img1 = img1Mat.getUMat(ACCESS_READ);
     cv::UMat img2 = img2Mat.getUMat(ACCESS_READ);
     

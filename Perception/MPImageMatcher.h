@@ -19,11 +19,11 @@
 - (nonnull instancetype)initWithSURFDetectorHessian:(double)hessian
                                 matchIterationCount:(int)iterationCount;
 
-- (double)medianMatchDistanceBetween:(nonnull NSImage *)image
-                            andImage:(nonnull NSImage *)otherImage;
+- (double)medianMatchDistanceBetween:(nonnull CGImageRef)image
+                            andImage:(nonnull CGImageRef)otherImage;
 
-- (double)medianMatchDistanceBetween:(nonnull NSImage *)image
-                            andImage:(nonnull NSImage *)otherImage
+- (double)medianMatchDistanceBetween:(nonnull CGImageRef)image
+                            andImage:(nonnull CGImageRef)otherImage
                   matchVisualization:(NSImage *_Nullable *_Nullable)matchVisualization;
 
 @end

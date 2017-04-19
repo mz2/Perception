@@ -47,31 +47,15 @@
     return finalImage;
 }
 
-- (CGImageRef)CGImage {
-    CGContextRef bitmapCtx = CGBitmapContextCreate(NULL/*data - pass NULL to let CG allocate the memory*/,
-                                                   [self size].width,
-                                                   [self size].height,
-                                                   8 /*bitsPerComponent*/,
-                                                   0 /*bytesPerRow - CG will calculate it for you if it's allocating the data.  This might get padded out a bit for better alignment*/,
-                                                   [[NSColorSpace genericRGBColorSpace] CGColorSpace],
-                                                   kCGBitmapByteOrder32Host|kCGImageAlphaPremultipliedFirst);
-    
-    [NSGraphicsContext saveGraphicsState];
-    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:bitmapCtx flipped:NO]];
-    [self drawInRect:NSMakeRect(0,0, [self size].width, [self size].height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-    [NSGraphicsContext restoreGraphicsState];
-    
-    CGImageRef cgImage = CGBitmapContextCreateImage(bitmapCtx);
-    CGContextRelease(bitmapCtx);
-    
-    return cgImage;
-}
+@end
 
-- (cv::Mat)MatRepresentationColor {
-    CGImageRef imageRef = [self CGImage];
+
+
+cv::Mat matRepresentationColorForCGImage(CGImageRef imageRef) {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(imageRef);
-    CGFloat cols = self.size.width;
-    CGFloat rows = self.size.height;
+    
+    CGFloat cols = CGImageGetWidth(imageRef);
+    CGFloat rows = CGImageGetHeight(imageRef);
     cv::Mat cvMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
     
     CGContextRef contextRef = CGBitmapContextCreate(cvMat.data,                 // Pointer to backing data
@@ -85,15 +69,14 @@
     
     CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), imageRef);
     CGContextRelease(contextRef);
-    CGImageRelease(imageRef);
+    
     return cvMat;
 }
 
-- (cv::Mat)MatRepresentationGray {
-    CGImageRef imageRef = [self CGImage];
+cv::Mat matRepresentationGrayForCGImage(CGImageRef imageRef) {
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-    CGFloat cols = self.size.width;
-    CGFloat rows = self.size.height;
+    CGFloat cols = CGImageGetWidth(imageRef);
+    CGFloat rows = CGImageGetHeight(imageRef);
     cv::Mat cvMat = cv::Mat(rows, cols, CV_8UC1); // 8 bits per component, 1 channel
     CGContextRef contextRef = CGBitmapContextCreate(cvMat.data,                 // Pointer to backing data
                                                     cols,                      // Width of bitmap
@@ -107,8 +90,6 @@
     CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), imageRef);
     CGContextRelease(contextRef);
     CGColorSpaceRelease(colorSpace);
-    CGImageRelease(imageRef);
+    
     return cvMat;
 }
-
-@end
