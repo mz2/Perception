@@ -37,9 +37,8 @@ using namespace std;
 }
 
 + (NSData *)HSBHistogramForImage:(CGImageRef)image
-                     hueBinCount:(int)hueBinCount
-              saturationBinCount:(int)saturationBinCount
-                      dimensions:(MPMatrixDimensions *)dim {
+                     hueBinCount:(NSUInteger)hueBinCount
+              saturationBinCount:(NSUInteger)saturationBinCount {
     cv::Mat imgMat = matRepresentationColorForCGImage(image);
     cv::UMat img = imgMat.getUMat(ACCESS_READ);
     int channels[] = { 0,  1 };
