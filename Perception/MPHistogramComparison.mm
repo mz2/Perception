@@ -36,9 +36,9 @@ using namespace std;
     return self;
 }
 
-+ (NSData *)HSBHistogramForImage:(CGImageRef)image
-                     hueBinCount:(NSUInteger)hueBinCount
-              saturationBinCount:(NSUInteger)saturationBinCount {
++ (NSArray<NSNumber *> *)HSBHistogramForImage:(CGImageRef)image
+                                  hueBinCount:(NSUInteger)hueBinCount
+                           saturationBinCount:(NSUInteger)saturationBinCount {
     cv::Mat imgMat = matRepresentationColorForCGImage(image);
     cv::UMat img = imgMat.getUMat(ACCESS_READ);
     int channels[] = { 0,  1 };
@@ -57,32 +57,18 @@ using namespace std;
              false);
     normalize(Hist, Hist,  0, 1, CV_MINMAX);
     
-    NSUInteger numrows = hueBinCount * saturationBinCount;
+    NSMutableArray *data = [NSMutableArray arrayWithCapacity:hueBinCount * saturationBinCount * 3];
     
-    Mat sig((int)numrows, 3, CV_32FC1);
     for (int h = 0, hbins = (int)hueBinCount; h < hbins; h++) {
         for (int s = 0, sbins = (int)saturationBinCount; s < sbins; ++s) {
-            int row = h * sbins + s;
-            float binval = Hist.at<float>(h, s);
-            sig.at<float>(row, 0) = binval;
-            sig.at<float>(row, 1) = h;
-            sig.at<float>(row, 2) = s;
-        }
-    }
-    
-    size_t dataSize = sizeof(float) * numrows * 3;
-    float *data = (float *)malloc(dataSize);
-    for (int h = 0, hbins = (int)hueBinCount; h < hbins; h++) {
-        for (int s = 0, sbins = (int)saturationBinCount; s < sbins; ++s) {
-            int row = h * sbins + s;
             float binval = Hist.at<float>(h,s);
-            data[row + 0] = binval;
-            data[row + 1] = h;
-            data[row + 2] = s;
+            [data addObject:[NSNumber numberWithFloat:binval]];
+            [data addObject:[NSNumber numberWithFloat:h]];
+            [data addObject:[NSNumber numberWithFloat:s]];
         }
     }
 
-    return [NSData dataWithBytesNoCopy:data length:dataSize freeWhenDone:YES];
+    return data;
 }
 
 + (cv::Mat)matrixFromFloatData:(NSData *)data dimensions:(MPMatrixDimensions)size {
@@ -92,8 +78,8 @@ using namespace std;
 
 + (float)earthMoverDistanceBetween:(CGImageRef)image
                           andImage:(CGImageRef)otherImage
-                       hueBinCount:(int)hueBinCount
-                saturationBinCount:(int)saturationBinCount
+                       hueBinCount:(NSUInteger)hueBinCount
+                saturationBinCount:(NSUInteger)saturationBinCount
 {
     //read 2 images for histogram comparing
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +92,7 @@ using namespace std;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     int channels[] = { 0,  1 };
-    int histSize[] = { hueBinCount, saturationBinCount };
+    int histSize[] = { (int)hueBinCount, (int)saturationBinCount };
     float hranges[] = { 0, 180 };
     float sranges[] = { 0, 255 };
     const float* ranges[] = { hranges, sranges};
@@ -130,19 +116,19 @@ using namespace std;
              false);
     normalize(HistB, HistB, 0, 1, CV_MINMAX);
     
-    int numrows = hueBinCount * saturationBinCount;
+    int numrows = (int)hueBinCount * (int)saturationBinCount;
     
     Mat sig1(numrows, 3, CV_32FC1);
     Mat sig2(numrows, 3, CV_32FC1);
     
-    for (int h=0, hbins = hueBinCount; h < hbins; h++) {
-        for (int s=0, sbins = saturationBinCount; s < sbins; ++s) {
-            float binval = HistA.at< float>(h,s);
+    for (int h=0, hbins = (int)hueBinCount; h < hbins; h++) {
+        for (int s=0, sbins = (int)saturationBinCount; s < sbins; ++s) {
+            float binval = HistA.at<float>(h,s);
             sig1.at< float>( h*sbins + s, 0) = binval;
             sig1.at< float>( h*sbins + s, 1) = h;
             sig1.at< float>( h*sbins + s, 2) = s;
             
-            binval = HistB.at< float>(h,s);
+            binval = HistB.at<float>(h,s);
             sig2.at< float>( h*sbins + s, 0) = binval;
             sig2.at< float>( h*sbins + s, 1) = h;
             sig2.at< float>( h*sbins + s, 2) = s;
@@ -160,18 +146,32 @@ MPMatrixDimensions MPMakeMatrixDimensions(NSUInteger rows, NSUInteger cols) {
     return dim;
 }
 
-+ (float)earthMoverDistanceBetweenHistogram:(nonnull NSData *)histogramA
-                               andHistogram:(nonnull NSData *)histogramB
-                                hueBinCount:(NSUInteger)hueBinCount
-                         saturationBinCount:(NSUInteger)saturationBinCount {
+float *MPFloatArrayFromNumberArray(NSArray<NSNumber *> *numbers) {
+    float *floats = new float[numbers.count];
     
-    Mat sig1 = [self matrixFromFloatData:histogramA dimensions:MPMakeMatrixDimensions((hueBinCount * saturationBinCount), 3)];
-    Mat sig2 = [self matrixFromFloatData:histogramB dimensions:MPMakeMatrixDimensions((hueBinCount * saturationBinCount), 3)];
+    for (NSUInteger i = 0, cnt = numbers.count; i < cnt; i++) {
+        float fVal = numbers[i].floatValue;
+        floats[i] = MAX(fVal, 0); // OpenCV can sometimes give just about negative values.
+    }
+    
+    return floats;
+}
+
++ (float)earthMoverDistanceBetweenHistogram:(nonnull NSArray<NSNumber *> *)histogramA
+                               andHistogram:(nonnull NSArray<NSNumber *> *)histogramB
+                                hueBinCount:(NSUInteger)hueBinCount
+                         saturationBinCount:(NSUInteger)saturationBinCount
+{
+    float *histA = MPFloatArrayFromNumberArray(histogramA);
+    float *histB = MPFloatArrayFromNumberArray(histogramB);
+    
+    Mat sig1((int)(hueBinCount * saturationBinCount), 3, CV_32FC1, (void *)histA);
+    Mat sig2((int)(hueBinCount * saturationBinCount), 3, CV_32FC1, (void *)histB);
     
     float emd = cv::EMD(sig1, sig2, CV_DIST_L2); //emd 0 is best matching.
     
-    histogramA = nil;
-    histogramB = nil;
+    delete [] histA;
+    delete [] histB;
     
     return emd;
 }

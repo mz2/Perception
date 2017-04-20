@@ -21,16 +21,16 @@ typedef struct MPMatrixDimensions MPMatrixDimensions;
 
 + (float)earthMoverDistanceBetween:(nonnull CGImageRef)image
                           andImage:(nonnull CGImageRef)otherImage
-                       hueBinCount:(int)hueBinCount
-                saturationBinCount:(int)saturationBinCount NS_SWIFT_NAME(earthMoverDistance(betweenImage:andImage:hueBinCount:saturationBinCount:));
+                       hueBinCount:(NSUInteger)hueBinCount
+                saturationBinCount:(NSUInteger)saturationBinCount NS_SWIFT_NAME(earthMoverDistance(betweenImage:andImage:hueBinCount:saturationBinCount:));
 
-+ (float)earthMoverDistanceBetweenHistogram:(nonnull NSData *)histogramA
-                               andHistogram:(nonnull NSData *)histogramB
++ (float)earthMoverDistanceBetweenHistogram:(nonnull NSArray<NSNumber *> *)histogramA
+                               andHistogram:(nonnull NSArray<NSNumber *> *)histogramB
                                 hueBinCount:(NSUInteger)hueBinCount
                          saturationBinCount:(NSUInteger)saturationBinCount NS_SWIFT_NAME(earthMoverDistance(betweenHistogram:andHistogram:hueBinCount:saturationBinCount:));
 
-+ (nonnull NSData *)HSBHistogramForImage:(nonnull CGImageRef)image
-                             hueBinCount:(NSUInteger)hueBinCount
-                      saturationBinCount:(NSUInteger)saturationBinCount NS_SWIFT_NAME(hsbHistogram(image:hueBinCount:saturationBinCount:));
++ (nonnull NSArray<NSNumber *> *)HSBHistogramForImage:(nonnull CGImageRef)image
+                                          hueBinCount:(NSUInteger)hueBinCount
+                                   saturationBinCount:(NSUInteger)saturationBinCount NS_SWIFT_NAME(hsbHistogram(image:hueBinCount:saturationBinCount:));
 
 @end
