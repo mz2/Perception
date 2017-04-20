@@ -29,9 +29,13 @@
 - (void)testMedianMatchDistanceMeasure {
     MPImageMatcher *imageMatcher = [[MPImageMatcher alloc] initWithSURFDetectorHessian:400 matchIterationCount:10];
     
-    NSImage *imgA = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-A.png"];
-    NSImage *imgB = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-B.png"];
-    NSImage *imgC = [[NSBundle bundleForClass:self.class] imageForResource:@"treebark.png"];
+    NSImage *imageA = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-A.png"];
+    NSImage *imageB = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-B.png"];
+    NSImage *imageC = [[NSBundle bundleForClass:self.class] imageForResource:@"treebark.png"];
+    
+    CGImageRef imgA = [imageA CGImageForProposedRect:nil context:nil hints:nil];
+    CGImageRef imgB = [imageB CGImageForProposedRect:nil context:nil hints:nil];
+    CGImageRef imgC = [imageC CGImageForProposedRect:nil context:nil hints:nil];
     
     double scoreAB = [imageMatcher medianMatchDistanceBetween:imgA andImage:imgB];
     double scoreAC = [imageMatcher medianMatchDistanceBetween:imgA andImage:imgC];
@@ -39,21 +43,31 @@
     
     XCTAssert(scoreAB < scoreAC);
     XCTAssert(scoreAB < scoreBC);
+    
+    imageA = nil;
+    imageB = nil;
+    imageC = nil;
 }
 
 - (void)testEarthMoverDistanceMeasure {
-    MPHistogramComparison *comparison = [[MPHistogramComparison alloc] initWithHueBinCount:30 saturationBinCount:32];
+    NSImage *imageA = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-A.png"];
+    NSImage *imageB = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-B.png"];
+    NSImage *imageC = [[NSBundle bundleForClass:self.class] imageForResource:@"treebark.png"];
     
-    NSImage *imgA = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-A.png"];
-    NSImage *imgB = [[NSBundle bundleForClass:self.class] imageForResource:@"kool-thing-B.png"];
-    NSImage *imgC = [[NSBundle bundleForClass:self.class] imageForResource:@"treebark.png"];
+    CGImageRef imgA = [imageA CGImageForProposedRect:nil context:nil hints:nil];
+    CGImageRef imgB = [imageB CGImageForProposedRect:nil context:nil hints:nil];
+    CGImageRef imgC = [imageC CGImageForProposedRect:nil context:nil hints:nil];
     
-    double scoreAB = [comparison earthMoverDistanceBetween:imgA andImage:imgB];
-    double scoreAC = [comparison earthMoverDistanceBetween:imgA andImage:imgC];
-    double scoreBC = [comparison earthMoverDistanceBetween:imgB andImage:imgC];
+    float scoreAB = [MPHistogramComparison earthMoverDistanceBetween:imgA andImage:imgB hueBinCount:32 saturationBinCount:32];
+    float scoreAC = [MPHistogramComparison earthMoverDistanceBetween:imgA andImage:imgC hueBinCount:32 saturationBinCount:32];
+    float scoreBC = [MPHistogramComparison earthMoverDistanceBetween:imgB andImage:imgC hueBinCount:32 saturationBinCount:32];
     
     XCTAssert(scoreAB < scoreAC);
     XCTAssert(scoreAB < scoreBC);
+    
+    imageA = nil;
+    imageB = nil;
+    imageC = nil;
 }
 
 @end
