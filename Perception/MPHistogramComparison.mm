@@ -57,13 +57,13 @@ using namespace std;
              false);
     normalize(Hist, Hist,  0, 1, CV_MINMAX);
     
-    int numrows = hueBinCount * saturationBinCount;
+    NSUInteger numrows = hueBinCount * saturationBinCount;
     
-    Mat sig(numrows, 3, CV_32FC1);
-    for (int h=0, hbins = hueBinCount; h < hbins; h++) {
-        for (int s=0, sbins = saturationBinCount; s < sbins; ++s) {
+    Mat sig((int)numrows, 3, CV_32FC1);
+    for (int h = 0, hbins = (int)hueBinCount; h < hbins; h++) {
+        for (int s = 0, sbins = (int)saturationBinCount; s < sbins; ++s) {
             int row = h * sbins + s;
-            float binval = Hist.at<float>(h,s);
+            float binval = Hist.at<float>(h, s);
             sig.at<float>(row, 0) = binval;
             sig.at<float>(row, 1) = h;
             sig.at<float>(row, 2) = s;
@@ -72,8 +72,8 @@ using namespace std;
     
     size_t dataSize = sizeof(float) * numrows * 3;
     float *data = (float *)malloc(dataSize);
-    for (int h=0, hbins = hueBinCount; h < hbins; h++) {
-        for (int s=0, sbins = saturationBinCount; s < sbins; ++s) {
+    for (int h = 0, hbins = (int)hueBinCount; h < hbins; h++) {
+        for (int s = 0, sbins = (int)saturationBinCount; s < sbins; ++s) {
             int row = h * sbins + s;
             float binval = Hist.at<float>(h,s);
             data[row + 0] = binval;
