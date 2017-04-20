@@ -8,13 +8,29 @@
 
 #import <Foundation/Foundation.h>
 
+struct MPMatrixDimensions {
+    NSUInteger rows;
+    NSUInteger cols;
+};
+typedef struct MPMatrixDimensions MPMatrixDimensions;
+
 @interface MPHistogramComparison : NSObject
 
 @property (readonly) int hueBinCount;
 @property (readonly) int saturationBinCount;
 
-- (nonnull instancetype)initWithHueBinCount:(int)hueBinCount saturationBinCount:(int)saturationBinCount;
++ (float)earthMoverDistanceBetween:(nonnull CGImageRef)image
+                          andImage:(nonnull CGImageRef)otherImage
+                       hueBinCount:(int)hueBinCount
+                saturationBinCount:(int)saturationBinCount NS_SWIFT_NAME(earthMoverDistance(betweenImage:andImage:hueBinCount:saturationBinCount:));
 
-- (double)earthMoverDistanceBetween:(nonnull CGImageRef)image andImage:(nonnull CGImageRef)otherImage;
++ (float)earthMoverDistanceBetweenHistogram:(nonnull NSData *)histogramA
+                               andHistogram:(nonnull NSData *)histogramB
+                                hueBinCount:(NSUInteger)hueBinCount
+                         saturationBinCount:(NSUInteger)saturationBinCount NS_SWIFT_NAME(earthMoverDistance(betweenHistogram:andHistogram:hueBinCount:saturationBinCount:));
+
++ (nonnull NSData *)HSBHistogramForImage:(nonnull CGImageRef)image
+                             hueBinCount:(NSUInteger)hueBinCount
+                      saturationBinCount:(NSUInteger)saturationBinCount NS_SWIFT_NAME(hsbHistogram(image:hueBinCount:saturationBinCount:));
 
 @end
