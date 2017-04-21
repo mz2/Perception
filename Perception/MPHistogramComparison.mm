@@ -38,7 +38,8 @@ using namespace std;
 
 + (NSArray<NSNumber *> *)HSBHistogramForImage:(CGImageRef)image
                                   hueBinCount:(NSUInteger)hueBinCount
-                           saturationBinCount:(NSUInteger)saturationBinCount {
+                           saturationBinCount:(NSUInteger)saturationBinCount
+                                   outputType:(MPHistogramOutputType)outputType {
     cv::Mat imgMat = matRepresentationColorForCGImage(image);
     cv::UMat img = imgMat.getUMat(ACCESS_READ);
     int channels[] = { 0,  1 };
@@ -63,17 +64,22 @@ using namespace std;
         for (int s = 0, sbins = (int)saturationBinCount; s < sbins; ++s) {
             float binval = Hist.at<float>(h,s);
             [data addObject:[NSNumber numberWithFloat:binval]];
-            [data addObject:[NSNumber numberWithFloat:(float)h / (float)hueBinCount]];
-            [data addObject:[NSNumber numberWithFloat:(float)s / (float)saturationBinCount]];
+            
+            if (outputType == MPHistogramOutputTypeHSBCoordinates) {
+                // nothing to do
+            }
+            else if (outputType == MPHistogramOutputTypeHSBCoordinates) {
+                [data addObject:[NSNumber numberWithFloat:(float)h]];
+                [data addObject:[NSNumber numberWithFloat:(float)s]];
+            }
+            else if (outputType == MPHistogramOutputTypeHSBCoordinatesNormalized) {
+                [data addObject:[NSNumber numberWithFloat:(float)h / (float)hueBinCount]];
+                [data addObject:[NSNumber numberWithFloat:(float)s / (float)saturationBinCount]];
+            }
         }
     }
 
     return data;
-}
-
-+ (cv::Mat)matrixFromFloatData:(NSData *)data dimensions:(MPMatrixDimensions)size {
-    Mat sig((int)size.rows, (int)size.cols, CV_32FC1, (void *)data.bytes);
-    return sig;
 }
 
 + (float)earthMoverDistanceBetween:(CGImageRef)image
@@ -124,14 +130,14 @@ using namespace std;
     for (int h=0, hbins = (int)hueBinCount; h < hbins; h++) {
         for (int s=0, sbins = (int)saturationBinCount; s < sbins; ++s) {
             float binval = HistA.at<float>(h,s);
-            sig1.at< float>( h*sbins + s, 0) = binval;
-            sig1.at< float>( h*sbins + s, 1) = h;
-            sig1.at< float>( h*sbins + s, 2) = s;
+            sig1.at<float>( h*sbins + s, 0) = binval;
+            sig1.at<float>( h*sbins + s, 1) = h;
+            sig1.at<float>( h*sbins + s, 2) = s;
             
             binval = HistB.at<float>(h,s);
-            sig2.at< float>( h*sbins + s, 0) = binval;
-            sig2.at< float>( h*sbins + s, 1) = h;
-            sig2.at< float>( h*sbins + s, 2) = s;
+            sig2.at<float>( h*sbins + s, 0) = binval;
+            sig2.at<float>( h*sbins + s, 1) = h;
+            sig2.at<float>( h*sbins + s, 2) = s;
         }
     }
     
