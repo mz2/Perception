@@ -145,13 +145,6 @@ using namespace std;
     return emd;
 }
 
-MPMatrixDimensions MPMakeMatrixDimensions(NSUInteger rows, NSUInteger cols) {
-    MPMatrixDimensions dim;
-    dim.rows = rows;
-    dim.cols = cols;
-    return dim;
-}
-
 float *MPFloatArrayFromNumberArray(NSArray<NSNumber *> *numbers) {
     float *floats = new float[numbers.count];
     
