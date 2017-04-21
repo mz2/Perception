@@ -39,7 +39,7 @@ using namespace std;
 + (NSArray<NSNumber *> *)HSBHistogramForImage:(CGImageRef)image
                                   hueBinCount:(NSUInteger)hueBinCount
                            saturationBinCount:(NSUInteger)saturationBinCount
-                                   outputType:(MPHistogramOutputType)outputType {
+                                   outputType:(MPHistogramOutput)outputType {
     cv::Mat imgMat = matRepresentationColorForCGImage(image);
     cv::UMat img = imgMat.getUMat(ACCESS_READ);
     int channels[] = { 0,  1 };
@@ -65,14 +65,14 @@ using namespace std;
             float binval = Hist.at<float>(h,s);
             [data addObject:[NSNumber numberWithFloat:binval]];
             
-            if (outputType == MPHistogramOutputTypeHSBCoordinates) {
+            if (outputType == MPHistogramOutputBins) {
                 // nothing to do
             }
-            else if (outputType == MPHistogramOutputTypeHSBCoordinates) {
+            else if (outputType == MPHistogramOutputCoordinates) {
                 [data addObject:[NSNumber numberWithFloat:(float)h]];
                 [data addObject:[NSNumber numberWithFloat:(float)s]];
             }
-            else if (outputType == MPHistogramOutputTypeHSBCoordinatesNormalized) {
+            else if (outputType == MPHistogramOutputCoordinatesNormalized) {
                 [data addObject:[NSNumber numberWithFloat:(float)h / (float)hueBinCount]];
                 [data addObject:[NSNumber numberWithFloat:(float)s / (float)saturationBinCount]];
             }

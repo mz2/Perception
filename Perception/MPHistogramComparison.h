@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, MPHistogramOutputType) {
-    MPHistogramOutputType1DBins = 0,
-    MPHistogramOutputTypeHSBCoordinates = 1,
-    MPHistogramOutputTypeHSBCoordinatesNormalized = 2
+typedef NS_ENUM(NSUInteger, MPHistogramOutput) {
+    MPHistogramOutputBins = 0,
+    MPHistogramOutputCoordinates = 1,
+    MPHistogramOutputCoordinatesNormalized = 2
 };
 
 @interface MPHistogramComparison : NSObject
@@ -32,6 +32,6 @@ typedef NS_ENUM(NSUInteger, MPHistogramOutputType) {
 + (nonnull NSArray<NSNumber *> *)HSBHistogramForImage:(nonnull CGImageRef)image
                                           hueBinCount:(NSUInteger)hueBinCount
                                    saturationBinCount:(NSUInteger)saturationBinCount
-                                           outputType:(MPHistogramOutputType)outputType NS_SWIFT_NAME(hsbHistogram(image:hueBinCount:saturationBinCount:outputType:));
+                                           outputType:(MPHistogramOutput)outputType NS_SWIFT_NAME(hsbHistogram(image:hueBinCount:saturationBinCount:outputType:));
 
 @end
