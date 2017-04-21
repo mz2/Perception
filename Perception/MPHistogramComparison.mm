@@ -63,8 +63,8 @@ using namespace std;
         for (int s = 0, sbins = (int)saturationBinCount; s < sbins; ++s) {
             float binval = Hist.at<float>(h,s);
             [data addObject:[NSNumber numberWithFloat:binval]];
-            [data addObject:[NSNumber numberWithFloat:h]];
-            [data addObject:[NSNumber numberWithFloat:s]];
+            [data addObject:[NSNumber numberWithFloat:(float)h / (float)hueBinCount]];
+            [data addObject:[NSNumber numberWithFloat:(float)s / (float)saturationBinCount]];
         }
     }
 
