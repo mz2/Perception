@@ -116,8 +116,8 @@ using namespace cv::xfeatures2d;
     NSParameterAssert(image);
     NSParameterAssert(otherImage);
     
-    cv::Mat img1Mat = matRepresentationGrayForCGImage(image);
-    cv::Mat img2Mat = matRepresentationGrayForCGImage(otherImage);
+    cv::Mat img1Mat = CVMatRepresentationGrayForCGImage(image);
+    cv::Mat img2Mat = CVMatRepresentationGrayForCGImage(otherImage);
     cv::UMat img1 = img1Mat.getUMat(ACCESS_READ);
     cv::UMat img2 = img2Mat.getUMat(ACCESS_READ);
     

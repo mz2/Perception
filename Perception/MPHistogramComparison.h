@@ -29,9 +29,11 @@ typedef NS_ENUM(NSUInteger, MPHistogramOutput) {
                                 hueBinCount:(NSUInteger)hueBinCount
                          saturationBinCount:(NSUInteger)saturationBinCount NS_SWIFT_NAME(earthMoverDistance(betweenHistogram:andHistogram:hueBinCount:saturationBinCount:));
 
-+ (nonnull NSArray<NSNumber *> *)HSBHistogramForImage:(nonnull CGImageRef)image
-                                          hueBinCount:(NSUInteger)hueBinCount
-                                   saturationBinCount:(NSUInteger)saturationBinCount
-                                           outputType:(MPHistogramOutput)outputType NS_SWIFT_NAME(hsbHistogram(image:hueBinCount:saturationBinCount:outputType:));
++ (nonnull NSArray<NSNumber *> *)brightnessHistogramForImage:(nonnull CGImageRef)image binCount:(NSUInteger)bins;
+
++ (nonnull NSArray<NSNumber *> *)hueSaturationHistogramForImage:(nonnull CGImageRef)image
+                                                    hueBinCount:(NSUInteger)hueBinCount
+                                             saturationBinCount:(NSUInteger)saturationBinCount
+                                                     outputType:(MPHistogramOutput)outputType NS_SWIFT_NAME(hueSaturationHistogram(image:hueBinCount:saturationBinCount:outputType:));
 
 @end

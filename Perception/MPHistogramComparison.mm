@@ -36,11 +36,34 @@ using namespace std;
     return self;
 }
 
-+ (NSArray<NSNumber *> *)HSBHistogramForImage:(CGImageRef)image
-                                  hueBinCount:(NSUInteger)hueBinCount
-                           saturationBinCount:(NSUInteger)saturationBinCount
-                                   outputType:(MPHistogramOutput)outputType {
-    cv::Mat imgMat = matRepresentationColorForCGImage(image);
++ (NSArray<NSNumber *> *)brightnessHistogramForImage:(CGImageRef)image binCount:(NSUInteger)bins {
+    int histSize[] = { (int)bins };
+    
+    float lranges[] = {0, 256};
+    const float* ranges[] = {lranges};
+    
+    cv::Mat hist;
+    int channels[] = {0};
+    
+    cv::Mat img = CVMatRepresentationGrayForCGImage(image);
+    cv::calcHist(&img, 1, channels, cv::Mat(), hist, 1, histSize, ranges, true, false);
+    
+    normalize(hist, hist, 0, 1, CV_MINMAX);
+    
+    NSMutableArray<NSNumber *> *histNumbers = [NSMutableArray new];
+    for (int h = 0; h < bins; h++) {
+        float f = hist.at<float>(h);
+        [histNumbers addObject:@(MAX(0, f))];
+    }
+    
+    return histNumbers;
+}
+
++ (NSArray<NSNumber *> *)hueSaturationHistogramForImage:(CGImageRef)image
+                                            hueBinCount:(NSUInteger)hueBinCount
+                                     saturationBinCount:(NSUInteger)saturationBinCount
+                                             outputType:(MPHistogramOutput)outputType {
+    cv::Mat imgMat = CVMatRepresentationColorForCGImage(image);
     cv::UMat img = imgMat.getUMat(ACCESS_READ);
     int channels[] = { 0,  1 };
     int histSize[] = { (int)hueBinCount, (int)saturationBinCount };
@@ -89,8 +112,8 @@ using namespace std;
 {
     //read 2 images for histogram comparing
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    cv::Mat img1Mat = matRepresentationColorForCGImage(image);
-    cv::Mat img2Mat = matRepresentationColorForCGImage(otherImage);
+    cv::Mat img1Mat = CVMatRepresentationColorForCGImage(image);
+    cv::Mat img2Mat = CVMatRepresentationColorForCGImage(otherImage);
     cv::UMat imgA = img1Mat.getUMat(ACCESS_READ);
     cv::UMat imgB = img2Mat.getUMat(ACCESS_READ);
     

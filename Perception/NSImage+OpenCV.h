@@ -20,5 +20,5 @@
 
 @end
 
-cv::Mat matRepresentationColorForCGImage(CGImageRef imageRef);
-cv::Mat matRepresentationGrayForCGImage(CGImageRef imageRef);
+cv::Mat CVMatRepresentationColorForCGImage(CGImageRef imageRef);
+cv::Mat CVMatRepresentationGrayForCGImage(CGImageRef imageRef);

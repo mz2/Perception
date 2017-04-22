@@ -51,7 +51,7 @@
 
 
 
-cv::Mat matRepresentationColorForCGImage(CGImageRef imageRef) {
+cv::Mat CVMatRepresentationColorForCGImage(CGImageRef imageRef) {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(imageRef);
     
     CGFloat cols = CGImageGetWidth(imageRef);
@@ -73,7 +73,7 @@ cv::Mat matRepresentationColorForCGImage(CGImageRef imageRef) {
     return cvMat;
 }
 
-cv::Mat matRepresentationGrayForCGImage(CGImageRef imageRef) {
+cv::Mat CVMatRepresentationGrayForCGImage(CGImageRef imageRef) {
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
     CGFloat cols = CGImageGetWidth(imageRef);
     CGFloat rows = CGImageGetHeight(imageRef);
