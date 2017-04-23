@@ -121,6 +121,8 @@
 		5F70161C1CE2C15400173EB6 /* liblibwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F70161A1CE2C15400173EB6 /* liblibwebp.a */; };
 		5F70161E1CE2C1B900173EB6 /* libIlmImf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F70161D1CE2C1B900173EB6 /* libIlmImf.a */; };
 		5F70161F1CE2C1B900173EB6 /* libIlmImf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F70161D1CE2C1B900173EB6 /* libIlmImf.a */; };
+		5FCD60B71EACD6C00026588A /* MPImageMeasure.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FCD60B51EACD6C00026588A /* MPImageMeasure.h */; };
+		5FCD60B81EACD6C00026588A /* MPImageMeasure.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5FCD60B61EACD6C00026588A /* MPImageMeasure.mm */; };
 		5FE632B91EAABEBD008114DE /* MPPrincipalComponentAnalysis.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FE632B71EAABEBD008114DE /* MPPrincipalComponentAnalysis.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FE632BA1EAABEBD008114DE /* MPPrincipalComponentAnalysis.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5FE632B81EAABEBD008114DE /* MPPrincipalComponentAnalysis.mm */; };
 /* End PBXBuildFile section */
@@ -230,6 +232,8 @@
 		5F7015E81CE2BEF500173EB6 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		5F70161A1CE2C15400173EB6 /* liblibwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibwebp.a; path = Libraries/liblibwebp.a; sourceTree = "<group>"; };
 		5F70161D1CE2C1B900173EB6 /* libIlmImf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIlmImf.a; path = Libraries/libIlmImf.a; sourceTree = "<group>"; };
+		5FCD60B51EACD6C00026588A /* MPImageMeasure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPImageMeasure.h; sourceTree = "<group>"; };
+		5FCD60B61EACD6C00026588A /* MPImageMeasure.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MPImageMeasure.mm; sourceTree = "<group>"; };
 		5FE632B71EAABEBD008114DE /* MPPrincipalComponentAnalysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPPrincipalComponentAnalysis.h; sourceTree = "<group>"; };
 		5FE632B81EAABEBD008114DE /* MPPrincipalComponentAnalysis.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MPPrincipalComponentAnalysis.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -403,6 +407,8 @@
 				5F13FEE81CE3E25B00F69E54 /* SURFDetector.hpp */,
 				5FE632B71EAABEBD008114DE /* MPPrincipalComponentAnalysis.h */,
 				5FE632B81EAABEBD008114DE /* MPPrincipalComponentAnalysis.mm */,
+				5FCD60B51EACD6C00026588A /* MPImageMeasure.h */,
+				5FCD60B61EACD6C00026588A /* MPImageMeasure.mm */,
 			);
 			path = Perception;
 			sourceTree = "<group>";
@@ -504,6 +510,7 @@
 				5F7015E01CE2B8EB00173EB6 /* NSImage+OpenCV.h in Headers */,
 				5F639A431CE287F600ADEA1B /* Perception.h in Headers */,
 				5F13FEEA1CE3E25B00F69E54 /* SURFDetector.hpp in Headers */,
+				5FCD60B71EACD6C00026588A /* MPImageMeasure.h in Headers */,
 				5FE632B91EAABEBD008114DE /* MPPrincipalComponentAnalysis.h in Headers */,
 				5F2E98D81CE49096009A7F7A /* MPHistogramComparison.h in Headers */,
 			);
@@ -635,6 +642,7 @@
 				5FE632BA1EAABEBD008114DE /* MPPrincipalComponentAnalysis.mm in Sources */,
 				5F13FEE61CE3DF0600F69E54 /* MPMatchVisualizer.mm in Sources */,
 				5F13FF171CE3F3A800F69E54 /* NSImage+OpenCV.mm in Sources */,
+				5FCD60B81EACD6C00026588A /* MPImageMeasure.mm in Sources */,
 				5F7015E11CE2BAA200173EB6 /* MPImageMatcher.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
