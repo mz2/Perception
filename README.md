@@ -14,12 +14,10 @@ The following steps were roughly speaking involved in building the OpenCV macOS 
 2. git clone git@github.com:opencv/opencv_contrib.git
    - The tag built is 3.2.0.
 
-3. Build opencv:
+3. Build opencv (and copy libraries and include directories in place after):
 
 ```
 cd opencv
 mkdir build
 cmake -DBUILD_SHARED_LIBS=OFF -DWITH_IPP=OFF -DOPENCV_ENABLE_NONFREE=ON -DOPENCV_EXTRA_MODULES_PATH=/Users/mz2/Projects/opencv_contrib/modules ../
 ```
-
-4. Copy libraries and include directories in place.
