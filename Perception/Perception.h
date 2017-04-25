@@ -19,3 +19,4 @@ FOUNDATION_EXPORT const unsigned char PerceptionVersionString[];
 #import "MPImageMatcher.h"
 #import "MPHistogramComparison.h"
 #import "MPPrincipalComponentAnalysis.h"
+#import "MPRandomForest.h"

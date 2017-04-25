@@ -9,6 +9,7 @@
 #include <opencv2/opencv.hpp>
 
 #import "MPPrincipalComponentAnalysis.h"
+#import "NSArray+OpenCV.h"
 
 NSString *const MPPrincipalComponentAnalysisErrorDomain = @"MPPrincipalComponentAnalysisErrorDomain";
 
@@ -63,21 +64,9 @@ NSString *const MPPrincipalComponentAnalysisErrorDomain = @"MPPrincipalComponent
     return YES;
 }
 
-+ (cv::Mat)matrixForPoints:(NSArray<NSArray<NSNumber *> *> *)points {
-    int pointCount = static_cast<int>(points.count);
-    int columnCount = static_cast<int>(points.firstObject.count);
-    cv::Mat data_pts(pointCount, columnCount, CV_64FC1);
-    for (int r = 0; r < data_pts.rows; r++) {
-        NSArray<NSNumber *> *point = points[r];
-        for (int c = 0, cols = (int)point.count; c < cols; c++) {
-            data_pts.at<double>(r, c) = point[c].doubleValue;
-        }
-    }
-    return data_pts;
-}
 
 + (cv::PCA)principalComponentsForPoints:(NSArray<NSArray<NSNumber *> *> *)points principalComponentCount:(NSUInteger)componentCount {
-    cv::Mat data_pts = [self matrixForPoints:points];
+    cv::Mat data_pts = points.matRepresentation;
     cv::PCA pca_analysis(data_pts, cv::Mat(), CV_PCA_DATA_AS_ROW, (int)componentCount);
     return pca_analysis;
 }
@@ -87,7 +76,7 @@ NSString *const MPPrincipalComponentAnalysisErrorDomain = @"MPPrincipalComponent
     int pointCount = static_cast<int>(points.count);
     int componentCount = pca_analysis.eigenvectors.cols;
     
-    cv::Mat data_pts = [self matrixForPoints:points];
+    cv::Mat data_pts = points.matRepresentation;
     cv::Mat projection = pca_analysis.project(data_pts);
     
     NSMutableArray *projections = [NSMutableArray new];

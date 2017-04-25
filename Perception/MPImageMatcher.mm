@@ -6,6 +6,8 @@
 //  Copyright © 2016 Matias Piipari & Co. All rights reserved.
 //
 
+#import "NSImage+OpenCV.h"
+
 #import <opencv2/core.hpp>
 #import <opencv2/features2d/features2d.hpp>
 #import <opencv2/core.hpp>
@@ -23,7 +25,6 @@
 #import <Cocoa/Cocoa.h>
 
 #import "MPImageMatcher.h"
-#import "NSImage+OpenCV.h"
 #import "MPMatchVisualizer.h"
 
 using namespace cv;
