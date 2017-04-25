@@ -37,7 +37,9 @@ typedef NS_ENUM(NSUInteger, MPRandomForestErrorCode) {
 - (BOOL)saveToFileURL:(nonnull NSURL *)fileURL error:(NSError *_Nullable *_Nullable)error;
 
 - (NSInteger)predictedClassForSample:(nonnull NSArray<NSNumber *> *)sample;
+- (nonnull NSArray<NSNumber *> *)predictedClassDistributionForSample:(nonnull NSArray<NSNumber *> *)sample;
 
-- (double)predictedNumericalValueForSample:(nonnull NSArray<NSNumber *> *)sample;
+- (double)predictedValueForSample:(nonnull NSArray<NSNumber *> *)sample;
+- (nonnull NSArray<NSNumber *> *)predictedValueDistributionForSample:(nonnull NSArray<NSNumber *> *)sample;
 
 @end

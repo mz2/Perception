@@ -185,10 +185,40 @@ NSString *const MPRandomForestErrorDomain = @"MPRandomForestErrorDomain";
     return (NSUInteger)roundf(_forest->predict(sampleMatrix));
 }
 
-- (double)predictedNumericalValueForSample:(NSArray<NSNumber *> *)sample {
+- (NSArray<NSNumber *> *)predictedClassDistributionForSample:(NSArray<NSNumber *> *)sample {
+    NSAssert(_forest != nil, @"Expecting the forest to have been trained.");
+    cv::Mat sampleMatrix = [sample matRepresentation];
+    
+    cv::Mat output;
+    _forest->getVotes(sampleMatrix, output, cv::ml::DTrees::Flags::PREDICT_AUTO);
+    
+    NSMutableArray *outputArray = [NSMutableArray arrayWithCapacity:output.cols];
+    for (int i = 0; i < output.cols; i++) {
+        [outputArray addObject:@(output.at<float>(i,1))];
+    }
+    
+    return outputArray;
+}
+
+- (double)predictedValueForSample:(NSArray<NSNumber *> *)sample {
     NSAssert(_forest != nil, @"Expecting the forest to have been trained.");
     cv::Mat sampleMatrix = [sample matRepresentation];
     return _forest->predict(sampleMatrix);
+}
+
+- (NSArray<NSNumber *> *)predictedValueDistributionForSample:(NSArray<NSNumber *> *)sample {
+    NSAssert(_forest != nil, @"Expecting the forest to have been trained.");
+    cv::Mat sampleMatrix = [sample matRepresentation];
+    
+    cv::Mat output;
+    _forest->getVotes(sampleMatrix, output, cv::ml::DTrees::Flags::PREDICT_AUTO);
+    
+    NSMutableArray *outputArray = [NSMutableArray arrayWithCapacity:output.cols];
+    for (int i = 0; i < output.cols; i++) {
+        [outputArray addObject:@(output.at<float>(i,0))];
+    }
+    
+    return outputArray;
 }
 
 @end
